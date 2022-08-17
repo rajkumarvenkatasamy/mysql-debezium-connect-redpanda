@@ -39,7 +39,7 @@ services:
       - --check=false
 
   kafka-connect:
-    image: confluentinc/cp-kafka-connect:7.2.0
+    image: debezium/connect:1.9
     container_name: kafka-connect-debezium-mysql
     depends_on:
       - redpanda
@@ -48,18 +48,18 @@ services:
     ports:
       - "8083:8083"
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: "redpanda:9092"
-      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect-rest
-      CONNECT_GROUP_ID: "mysql-deb-kc-rp"
-      CONNECT_CONFIG_STORAGE_TOPIC: "redpanda.configs"
-      CONNECT_OFFSET_STORAGE_TOPIC: "redpanda.offset"
-      CONNECT_STATUS_STORAGE_TOPIC: "redpanda.status"
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
-      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.storage.StringConverter
-      CONNECT_PLUGIN_PATH: /data/connect-jars
+      BOOTSTRAP_SERVERS: "redpanda:9092"
+      REST_ADVERTISED_HOST_NAME: kafka-connect-rest
+      GROUP_ID: "mysql-deb-kc-rp"
+      CONFIG_STORAGE_TOPIC: "redpanda.configs"
+      OFFSET_STORAGE_TOPIC: "redpanda.offset"
+      STATUS_STORAGE_TOPIC: "redpanda.status"
+      CONFIG_STORAGE_REPLICATION_FACTOR: "1"
+      OFFSET_STORAGE_REPLICATION_FACTOR: "1"
+      STATUS_STORAGE_REPLICATION_FACTOR: "1"
+      KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      VALUE_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      PLUGIN_PATH: /data/connect-jars
     volumes:
       - ./data:/data/connect-jars
 
